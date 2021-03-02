@@ -2,11 +2,26 @@
     <head>
         <title>CDDU</title>
         <script>
+            a=new AudioContext()
+            function beep(vol, freq, duration){
+                v=a.createOscillator()
+                u=a.createGain()
+                v.connect(u)
+                v.frequency.value=freq
+                v.type="square"
+                u.connect(a.destination)
+                u.gain.value=vol*0.01
+                v.start(a.currentTime)
+                v.stop(a.currentTime+duration*0.001)
+            }
+
+
             function countdownTo(countDownDate, elementId){
 
                 // Update the count down every 1 second
                 var x = setInterval(function() {
                     // Get today's date and time
+                    beep(100, 500, 150)
                     var now = new Date().getTime();
                         
                     // Find the distance between now and the count down date
@@ -30,32 +45,23 @@
                 }, 1000);
             }
         </script>
+        <style>
+            body {
+                background-color: black;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                justify-content: center;
+                align-items: center;
+                font-size: 25.5vw;
+            }
+            
+        </style>
     </head>
-    <body>
-        <div> 
-            <p>
-                Time to item 1: 
-            </p>
-            <div id="time1"></div>
-        </div>
-        <div> 
-            <p>
-                Time to Xmas: 
-            </p>
-            <div id="time2"></div>
-        </div>
-        <div> 
-            <p>
-                Time to Alex Birthday: 
-            </p>
-            <div id="time3"></div>
-        </div>
+    <body> 
+        <div id="time1" style="color: red;"></div>
         <script>
             countdownTo(new Date("Jan 5, 2022 15:37:25"), "time1")
-        </script><script>
-            countdownTo(new Date("Dec 25, 2021 0:0:0"), "time2")
-        </script><script>
-            countdownTo(new Date("Nov 10, 2021 0:0:0"), "time3")
         </script>
     </body>
 </html>
